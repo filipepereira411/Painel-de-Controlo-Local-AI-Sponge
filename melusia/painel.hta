@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <!-- ESTA LINHA CORRIGE O ERRO: Força o Windows a usar o motor moderno -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <title>Painel AI Sponge</title>
+    
+    <hta:application 
+        id="aiSpongeApp"
+        border="thin"
+        caption="yes"
+        sysmenu="yes"
+        windowstate="normal"
+    />
+
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #e0f2fe; text-align: center; padding: 40px; margin: 0; }
+        h1 { color: #0369a1; font-size: 24px; margin-bottom: 5px; }
+        .subtitle { color: #0284c7; margin-bottom: 30px; font-size: 14px; }
+        .btn { font-size: 16px; padding: 12px 24px; margin: 10px; cursor: pointer; border-radius: 8px; border: none; font-weight: bold; }
+        .btn-exec { background: #facc15; color: #000; }
+        .btn-gen { background: #38bdf8; color: #fff; }
+        .btn-quilhos { background: #f43f5e; color: #fff; }
+        #status { margin-top: 25px; font-weight: bold; color: #475569; font-size: 14px; }
+    </style>
+
+    <script type="text/javascript">
+        function executarComando(nomeFicheiroBat) {
+            var statusDiv = document.getElementById('status');
+            statusDiv.innerText = "A executar " + nomeFicheiroBat + "...";
+            
+            try {
+                // Usando 'var' compatível com o sistema de scripts do Windows
+                var shell = new ActiveXObject("WScript.Shell");
+                shell.Run(nomeFicheiroBat, 1, false);
+                statusDiv.innerText = "Comando enviado com sucesso para: " + nomeFicheiroBat;
+            } catch (erro) {
+                statusDiv.innerText = "Erro ao executar o script.";
+                alert("Erro:\n" + erro.message);
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Painel de Controlo Local: AI Sponge</h1>
+    <div class="subtitle">Execução direta de Scripts Batch via Interface HTA</div>
+    
+    <button class="btn btn-exec" onclick="executarComando('executor.bat')">Abrir Executor</button>
+    <button class="btn btn-gen" onclick="executarComando('gerar_exe.bat')">Gerar Executável</button>
+    <button class="btn btn-quilhos" onclick="executarComando('gerar_quilhos.bat')">Gerar Quilhos</button>
+
+    <div id="status">Aguardando comando...</div>
+
+</body>
+</html>
